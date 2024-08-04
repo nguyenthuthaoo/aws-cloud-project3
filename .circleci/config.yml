@@ -17,14 +17,14 @@ jobs:
               echo '___________________begining build'
               docker build -t udagram-api-feed ./udagram-api-feed
               docker build -t udagram-api-user ./udagram-api-user
-              docker build -t udagram-api-prontend ./udagram-prontend
+              docker build -t udagram-api-prontend ./udagram-frontend
               docker build -t reverseproxy ./udagram-reverseproxy
 
             # Tagging
               echo '______________begining build'
               docker tag udagram-api-feed thao2134/udagram-api-feed:v1
               docker tag udagram-api-user thao2134/udagram-api-user:v1
-              docker tag udagram-api-prontend thao2134/udagram-prontend:v1
+              docker tag udagram-api-prontend thao2134/udagram-frontend:v1
               docker tag reverseproxy thao2134/udagram-reverseproxy:v1
 
               echo '_______All images succesfully built'
@@ -37,7 +37,7 @@ jobs:
 
               docker push thao2134/udagram-api-feed:v1
               docker push thao2134/udagram-api-user:v1
-              docker push thao2134/udagram-prontend:v1
+              docker push thao2134/udagram-frontend:v1
               docker push thao2134/udagram-reverseproxy:v1
 
 workflows:
