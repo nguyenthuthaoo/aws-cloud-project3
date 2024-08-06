@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: backend-user
   labels:
     service: backend-user
-  name: backend-user
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       service: backend-user
@@ -20,32 +20,17 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "64Mi"
               cpu: "250m"
             limits:
-              memory: "2048Mi"
               cpu: "500m"
+          ports:
+            - containerPort: 8080
           env:
             - name: URL
               valueFrom:
                 configMapKeyRef:
                   name: env-config
                   key: URL
-            - name: AWS_BUCKET
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: AWS_BUCKET
-            - name: AWS_PROFILE
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: AWS_PROFILE
-            - name: AWS_REGION
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: AWS_REGION
             - name: JWT_SECRET
               valueFrom:
                 configMapKeyRef:
@@ -71,17 +56,4 @@ spec:
                 secretKeyRef:
                   name: env-secret
                   key: POSTGRES_USERNAME
-            - name: NODE_OPTIONS
-              valueFrom:
-                configMapKeyRef:
-                  name: env-config
-                  key: NODE_OPTIONS
-          volumeMounts:
-            - name: aws-secret
-              mountPath: "/root/.aws/"
-              readOnly: true
       restartPolicy: Always
-      volumes:
-        - name: aws-secret
-          secret:
-            secretName: aws-secret
